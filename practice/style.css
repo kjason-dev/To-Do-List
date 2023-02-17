@@ -61,16 +61,18 @@ h2 {
 }
 
 .todo_submit_button {
+  
   background-color: #9dc0e8;
   color: #fff;
   width: 80px;
   margin-left: 12px;
+  margin-right: 36px;
   font-size: 22px;
   border-radius: 8px;
 }
 
 .todos {
-  margin-top: 106px;
+  margin-top: 160px;
   overflow: auto;
 }
 
