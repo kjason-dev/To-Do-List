@@ -80,11 +80,17 @@
     .catch((error) => console.error(error))
   }
 
+  const toggleTodo = (e) => {
+    console.log(e.target.className)
+
+  }
+
   const init = () => {
     window.addEventListener('DOMContentLoaded', () => {
       getTodos()
     })
     $form.addEventListener('submit', addTodo)
+    $todos.addEventListener('click', toggleTodo)
   }
   init()
 })()
