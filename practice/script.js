@@ -81,7 +81,18 @@
   }
 
   const toggleTodo = (e) => {
-    console.log(e.target.className)
+    if(e.target.className !== 'todo_checkbox') return
+    const $item = e.target.closest('.item')
+    const id = $item.dataset.id
+    const completed = e.target.checked
+
+    fetch(`${API_URL}/${id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({completed}),
+    })
 
   }
 
