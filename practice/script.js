@@ -5,14 +5,15 @@
     return document.querySelector(target)
   }
 
-  const API_URL = 'http://localhost:3000/todos'
   const $todos = get('.todos')
   const $form = get('.todo_form')
   const $todoInput = get('.todo_input')
+  const API_URL = 'http://localhost:3000/todos'
 
   const createTodoElement = (item) => {
-    const { id, content } = item
+    const { id, content, completed } = item
     const $todoItem = document.createElement('div')
+    const isChecked = completed ? 'checked' : ''
     $todoItem.classList.add('item')
     $todoItem.dataset.id = id
     $todoItem.innerHTML = `
@@ -20,6 +21,7 @@
               <input
                 type="checkbox"
                 class='todo_checkbox' 
+                ${isChecked}
               />
               <label>${content}</label>
               <input type="text" value="${content}" />
@@ -67,17 +69,15 @@
     }
     fetch(API_URL, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(todo),
     })
     .then(getTodos)
     .then(() => {
       $todoInput.value = ''
-      $todoInput.value.focus()
+      $todoInput.focus()
     })
-    .catch((error) => console.error(error))
+    .catch((error) => console.error(error.message))
   }
 
   const toggleTodo = (e) => {
@@ -88,11 +88,12 @@
 
     fetch(`${API_URL}/${id}`, {
       method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({completed}),
     })
+      .then((response) => response.json())
+      .then(getTodos)
+      .catch((error) => console.error(error))
 
   }
 
@@ -102,6 +103,7 @@
     })
     $form.addEventListener('submit', addTodo)
     $todos.addEventListener('click', toggleTodo)
+    
   }
   init()
 })()
