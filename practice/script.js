@@ -139,17 +139,27 @@
     .catch((error) => console.error(error))
   }
 
+  const removeTodo = (e) => {
+    if (e.target.className !== 'todo_remove_button') return
+    const $item = e.target.closest('.item')
+    const id = $item.dataset.id
 
+    fetch(`${API_URL}/${id}`, {
+      method: 'DELETE'
+    })
+      .then(getTodos)
+      .catch((error) => console.error(error))
+  }
 
   const init = () => {
     window.addEventListener('DOMContentLoaded', () => {
       getTodos()
     })
-
     $form.addEventListener('submit', addTodo)
     $todos.addEventListener('click', toggleTodo)
     $todos.addEventListener('click', changeEditMode)
     $todos.addEventListener('click', editTodo)
+    $todos.addEventListener('click', removeTodo)
     
   }
   init()
